@@ -70,6 +70,16 @@ doclib = scli.get_list 'Personal Documents'
 doclib.add_file! :file => '/path/to/file'
 ```
 
+### Download a file from a DocumentLibrary List
+```ruby
+doclib = scli.get_list 'Some Documents'
+doc = doclib.items.first
+doc.content_type
+# => 'text/plain'
+document_contents = doc.download!
+# => "This is just a text file\nDownloaded from sharepoint"
+```
+
 ## Timezones
 SPWS servers return times in the zone the Sharepoint Web Front End (WFE) is configured in. For example, say I have a Sharepoint WFE located in Perth, Australia (GMT+8, no DST), with its system time set to local time. If Sharepoint wishes to express the actual time `2014-01-01T00:00:00Z`, the string `2014-01-01T08:00:00Z` will be returned by the web service, which is incorrect unless the timezone fragment is ignored.
 
