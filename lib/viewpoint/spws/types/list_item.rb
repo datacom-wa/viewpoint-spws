@@ -25,6 +25,7 @@ class Viewpoint::SPWS::Types::ListItem
   attr_reader :created_date, :modified_date, :due_date
   attr_reader :title, :link_title, :status, :priority, :percent_complete
   attr_reader :start_date, :end_date, :recurrence, :all_day_event
+  attr_reader :attachments
 
   # @param [Viewpoint::SPWS::Websvc::List] ws The webservice instance this ListItem spawned from
   # @param [String] list_id The list id that this item belongs to
@@ -231,6 +232,7 @@ class Viewpoint::SPWS::Types::ListItem
     set_field   :@end_date, 'ows_EndDate'
     set_field   :@recurrence, 'ows_fRecurrence'
     set_field   :@all_day_event, 'ows_fAllDayEvent'
+    set_field   :@attachments, 'ows_Attachments', @xmldoc, true
     set_field   :@created_date, 'ows_Created_x0020_Date' unless @created_date
     set_field   :@modified_date, 'ows_Last_x0020_Modified' unless @modified_date
     @xmldoc = nil
@@ -240,12 +242,17 @@ class Viewpoint::SPWS::Types::ListItem
   # @param [Symbol] vname The instance variable we will set the value to if it exists
   # @param [String] fname The field name to check for
   # @param [#[]] mapsrc A dictionary or Hash like item that contains variable data.
-  def set_field(vname, fname, mapsrc = @xmldoc)
+  # @param [Bool] arrayvalue A flag to specify that the value should be an array
+  def set_field(vname, fname, mapsrc = @xmldoc, arrayvalue = false)
     newvar = nil
     field = mapsrc[fname]
     if field
       if(field =~ /;#/)
-        newvar = mapsrc[fname].split(';#').last
+        if (arrayvalue)
+            newvar = mapsrc[fname].split(';#').reject(&:blank?)
+        else
+            newvar = mapsrc[fname].split(';#').last
+        end
       else
         newvar = field
       end
