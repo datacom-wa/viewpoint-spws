@@ -44,7 +44,9 @@ module Viewpoint::SPWS::Websvc
 
     def parse_time(str)
       datetime = DateTime.parse(str)
-      datetime = server_timezone.local_to_utc(datetime) if server_timezone
+      unless str.end_with?("Z") # the server correctly gave us time zone information
+        datetime = server_timezone.local_to_utc(datetime) if server_timezone
+      end
       datetime
     end
 
