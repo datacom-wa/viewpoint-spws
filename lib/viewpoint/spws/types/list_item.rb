@@ -25,7 +25,7 @@ class Viewpoint::SPWS::Types::ListItem
   attr_reader :created_date, :modified_date, :due_date
   attr_reader :title, :link_title, :status, :priority, :percent_complete
   attr_reader :start_date, :end_date, :recurrence, :all_day_event
-  attr_reader :attachments
+  attr_reader :attachments, :external_url
 
   # @param [Viewpoint::SPWS::Websvc::List] ws The webservice instance this ListItem spawned from
   # @param [String] list_id The list id that this item belongs to
@@ -235,6 +235,7 @@ class Viewpoint::SPWS::Types::ListItem
     set_field   :@attachments, 'ows_Attachments', @xmldoc, true
     set_field   :@created_date, 'ows_Created_x0020_Date' unless @created_date
     set_field   :@modified_date, 'ows_Last_x0020_Modified' unless @modified_date
+    set_field   :@external_url, 'ows_URL'
   end
 
   # Parse a Sharepoint field or managed field
