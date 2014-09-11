@@ -235,7 +235,6 @@ class Viewpoint::SPWS::Types::ListItem
     set_field   :@attachments, 'ows_Attachments', @xmldoc, true
     set_field   :@created_date, 'ows_Created_x0020_Date' unless @created_date
     set_field   :@modified_date, 'ows_Last_x0020_Modified' unless @modified_date
-    @xmldoc = nil
   end
 
   # Parse a Sharepoint field or managed field
